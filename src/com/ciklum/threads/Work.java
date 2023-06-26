@@ -6,7 +6,7 @@ import java.util.stream.IntStream;
 public class Work {
 
     public void workVirtual() {
-        long milis = System.currentTimeMillis();
+        long millis = System.currentTimeMillis();
 
         try (var executor = Executors.newVirtualThreadPerTaskExecutor()) {
             IntStream.range(0, 100000).forEach(i -> {
@@ -14,11 +14,11 @@ public class Work {
             });
         }
 
-        System.out.printf("Virtual: %d%n", System.currentTimeMillis() - milis);
+        System.out.printf("Virtual: %d%n", System.currentTimeMillis() - millis);
     }
 
     public void workPlatform() {
-        long milis = System.currentTimeMillis();
+        long millis = System.currentTimeMillis();
 
         try (var executor = Executors.newThreadPerTaskExecutor(Executors.defaultThreadFactory())) {
             IntStream.range(0, 100000).forEach(i -> {
@@ -26,11 +26,11 @@ public class Work {
             });
         }
 
-        System.out.printf("Platform: %d%n", System.currentTimeMillis() - milis);
+        System.out.printf("Platform: %d%n", System.currentTimeMillis() - millis);
     }
 
     public void workPlatformPooled() {
-        long milis = System.currentTimeMillis();
+        long millis = System.currentTimeMillis();
 
         try (var executor = Executors.newCachedThreadPool(Executors.defaultThreadFactory())) {
             IntStream.range(0, 100000).forEach(i -> {
@@ -38,11 +38,11 @@ public class Work {
             });
         }
 
-        System.out.printf("Platform pooled: %d%n", System.currentTimeMillis() - milis);
+        System.out.printf("Platform pooled: %d%n", System.currentTimeMillis() - millis);
     }
 
     public void workVirtualPooled() {
-        long milis = System.currentTimeMillis();
+        long millis = System.currentTimeMillis();
 
         try (var executor = Executors.newCachedThreadPool(Thread.ofVirtual().factory())) {
             IntStream.range(0, 100000).forEach(i -> {
@@ -50,7 +50,7 @@ public class Work {
             });
         }
 
-        System.out.printf("Virtual pooled: %d%n", System.currentTimeMillis() - milis);
+        System.out.printf("Virtual pooled: %d%n", System.currentTimeMillis() - millis);
     }
 
     public static void main(String[] args) {

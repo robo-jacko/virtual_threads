@@ -7,7 +7,7 @@ import java.util.stream.IntStream;
 public class Sleep {
 
     public void sleepVirtual() {
-        long milis = System.currentTimeMillis();
+        long millis = System.currentTimeMillis();
 
         try (var executor = Executors.newVirtualThreadPerTaskExecutor()) {
             IntStream.range(0, 10000).forEach(i -> {
@@ -18,11 +18,11 @@ public class Sleep {
             });
         }
 
-        System.out.printf("Virtual: %d%n", System.currentTimeMillis() - milis);
+        System.out.printf("Virtual: %d%n", System.currentTimeMillis() - millis);
     }
 
     public void sleepPlatform() {
-        long milis = System.currentTimeMillis();
+        long millis = System.currentTimeMillis();
 
         try (var executor = Executors.newThreadPerTaskExecutor(Executors.defaultThreadFactory())) {
             IntStream.range(0, 10000).forEach(i -> {
@@ -33,11 +33,11 @@ public class Sleep {
             });
         }
 
-        System.out.printf("Platform: %d%n", System.currentTimeMillis() - milis);
+        System.out.printf("Platform: %d%n", System.currentTimeMillis() - millis);
     }
 
     public void sleepPlatformPooled() {
-        long milis = System.currentTimeMillis();
+        long millis = System.currentTimeMillis();
 
         try (var executor = Executors.newCachedThreadPool(Executors.defaultThreadFactory())) {
             IntStream.range(0, 10000).forEach(i -> {
@@ -48,7 +48,7 @@ public class Sleep {
             });
         }
 
-        System.out.printf("Platform pooled: %d%n", System.currentTimeMillis() - milis);
+        System.out.printf("Platform pooled: %d%n", System.currentTimeMillis() - millis);
     }
 
     public static void main(String[] args) {
