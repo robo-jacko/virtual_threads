@@ -5,53 +5,61 @@ import java.util.stream.IntStream;
 
 public class Work {
 
-    public void runVirtual() {
+    public void workVirtual() {
+        long milis = System.currentTimeMillis();
+
         try (var executor = Executors.newVirtualThreadPerTaskExecutor()) {
             IntStream.range(0, 100000).forEach(i -> {
                 executor.submit(() -> Work.isPrime(i));
             });
         }
+
+        System.out.printf("Virtual: %d%n", System.currentTimeMillis() - milis);
     }
 
-    public void run() {
+    public void workPlatform() {
+        long milis = System.currentTimeMillis();
+
         try (var executor = Executors.newThreadPerTaskExecutor(Executors.defaultThreadFactory())) {
             IntStream.range(0, 100000).forEach(i -> {
                 executor.submit(() -> Work.isPrime(i));
             });
         }
+
+        System.out.printf("Platform: %d%n", System.currentTimeMillis() - milis);
     }
 
-    public void runCached() {
+    public void workPlatformPooled() {
+        long milis = System.currentTimeMillis();
+
         try (var executor = Executors.newCachedThreadPool(Executors.defaultThreadFactory())) {
             IntStream.range(0, 100000).forEach(i -> {
                 executor.submit(() -> Work.isPrime(i));
             });
         }
+
+        System.out.printf("Platform pooled: %d%n", System.currentTimeMillis() - milis);
     }
 
-    public void runVirtualCached() {
+    public void workVirtualPooled() {
+        long milis = System.currentTimeMillis();
+
         try (var executor = Executors.newCachedThreadPool(Thread.ofVirtual().factory())) {
             IntStream.range(0, 100000).forEach(i -> {
                 executor.submit(() -> Work.isPrime(i));
             });
         }
+
+        System.out.printf("Virtual pooled: %d%n", System.currentTimeMillis() - milis);
     }
 
     public static void main(String[] args) {
-        long milis = System.currentTimeMillis();
-        new Work().runVirtual();
-        System.out.println(System.currentTimeMillis() - milis);
-        //milis = System.currentTimeMillis();
-        //new Work().run();
-        //System.out.println(System.currentTimeMillis() - milis);
-        milis = System.currentTimeMillis();
-        new Work().runCached();
-        System.out.println(System.currentTimeMillis() - milis);
-        //milis = System.currentTimeMillis();
-        //new Work().runVirtualCached();
-        //System.out.println(System.currentTimeMillis() - milis);
+        Work worker = new Work();
 
-        System.out.println(Integer.valueOf(12) == Integer.valueOf(12));
+        worker.workVirtual();
+        worker.workPlatform();
+        //worker.workPlatformPooled();
+        //worker.workVirtualPooled();
     }
 
     public static boolean isPrime(int num) {
